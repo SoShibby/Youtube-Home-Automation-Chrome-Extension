@@ -1,0 +1,23 @@
+{
+  "name" : "Youtube, Home Automation",
+  "version" : "1.0.1",
+  "description" : "Youtube, Home Automation",
+  "permissions" : ["tabs", "webRequest", "http://*/*", "https://*/*", "http://feber.se/*",  "https://www.youtube.com/*", "https://youtube.com/*", "*://*.youtube.com/*", "http://127.0.0.1/*", "http://stackoverflow.com/*"],
+  "background": {
+    "scripts": [ "misc/assert.js", "background/clientSocket.js", "background/playerManager.js", "background/youtubePlayer.js", "background/controlUnitCommunicator.js", "background/tabManager.js" ]
+  },
+  "browser_action" : {
+    "default_icon" : "images/sample-128.png"
+  },
+  "icons" : {
+    "128" : "images/sample-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "http://feber.se/*",  "https://www.youtube.com/*","https://youtube.com/*", "http://127.0.0.1/*", "http://stackoverflow.com/*"],
+      "js" : ["misc/jquery-2.0.1.min.js", "misc/assert.js", "misc/scrollTo.js", "tabs/main.js", "tabs/playerHandler.js", "tabs/backgroundCommunicator.js", "tabs/injector.js", "tabs/uiHandler.js", "misc/helpFunctions.js", "nativeYoutubeAPI/iframe_api.js","nativeYoutubeAPI/www-widgetapi-vflqvh1vf.js"],
+	  "all_frames": true
+    }
+  ],
+  "manifest_version": 2
+}
