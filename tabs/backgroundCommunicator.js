@@ -5,6 +5,8 @@
 */
 Communicator = (function() {
 
+	init();
+	
 	//Set up event listeners
 	function init(){
 		PlayerHandler.addEventListener("onPlayerReady", onPlayerReady);
@@ -54,26 +56,20 @@ Communicator = (function() {
 		chrome.extension.sendRequest({ player: { playerId: event.player.playerId, status: status, event: "statusChanged" } }, function(response) {});	//Send message to the background script that a YouTube player has changed state
 	}
 	
-	//Return public functions
-	return {
-		init: init
-	}
-}());
-
-Communicator.init();
-
-//Listen for commands from the background script to pause, play etc.
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	var playerId = request.playerId;
-	var setStatus = request.setStatus;
-	
-	if(playerId && setStatus){
-		if(setStatus === "play"){
-			PlayerHandler.play(playerId);
-		}else if(setStatus === "pause"){
-			PlayerHandler.pause(playerId);
+	//Listen for commands from the background script to pause, play etc.
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		var playerId = request.playerId;
+		var setStatus = request.setStatus;
+		
+		if(playerId && setStatus){
+			if(setStatus === "play"){
+				PlayerHandler.play(playerId);
+			}else if(setStatus === "pause"){
+				PlayerHandler.pause(playerId);
+			}
+		}else{
+			console.log("Data missing, you must supply playerId and setStatus");
 		}
-	}else{
-		console.log("Data missing, you must supply playerId and setStatus");
-	}
-});
+	});
+
+}());
