@@ -88,6 +88,7 @@ PlayerHandler = (function(){
 		return getPlayer(playerId).getVolume();
 	}
 	
+	//Set the volume of the specific YouTube player
 	function setVolume(playerId, volume){
 		return getPlayer(playerId).setVolume(volume);
 	}
@@ -97,10 +98,12 @@ PlayerHandler = (function(){
 		return getPlayer(playerId).isMuted();
 	}
 	
+	//Mute a specific YouTube player
 	function mute(playerId){
 		return getPlayer(playerId).mute();
 	}
 	
+	//UnMute a specific YouTube player
 	function unMute(playerId){
 		return getPlayer(playerId).unMute();
 	}
@@ -115,6 +118,7 @@ PlayerHandler = (function(){
 		return getPlayer(playerId).getPlaybackQuality();
 	}
 	
+	//Set the playback quality (video quality) of a specific YouTube player
 	function setPlaybackQuality(playerId, quality){
 		return getPlayer(playerId).setPlaybackQuality(quality);
 	}
