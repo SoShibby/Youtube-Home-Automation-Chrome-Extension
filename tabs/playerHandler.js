@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 PlayerHandler handles all the YouTube players that exist in one tab.
 It receives events such as paused, playing and can send commands to a YouTube player to stop playback and to resume playback
 */
@@ -29,7 +29,7 @@ PlayerHandler = (function(){
 		});
 	}
 	
-	//Event triggered when the YouTube player changes state. Possible states are -1 – unstarted, 0 – ended, 1 – playing, 2 – paused, 3 – buffering, 5 - video cued
+	//Event triggered when the YouTube player changes state. Possible states are -1 â€“ unstarted, 0 â€“ ended, 1 â€“ playing, 2 â€“ paused, 3 â€“ buffering, 5 - video cued
 	function onPlayerStateChanged(event) {
 		console.log("onPlayerStateChanged");
 	
