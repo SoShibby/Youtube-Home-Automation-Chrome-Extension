@@ -1,5 +1,5 @@
 /* 
-	Handles communication with all the Youtube players in each tabs
+	Handles communication with all the YouTube players in each tabs
 */
 
 TabManager = (function(){
@@ -39,14 +39,18 @@ TabManager = (function(){
 
 	//Tab is closing
 	chrome.tabs.onRemoved.addListener(function(tabId, removeInfo){
+		//Remove all YouTube players that are associated with this tab
 		PlayerManager.removePlayerByTabId(tabId);
 	});
 
 	//Tab is refreshed
 	chrome.tabs.onUpdated.addListener(function(tabId, removeInfo, tab){
-		if(removeInfo.status !== "loading")
+		//Check that this tab is really refreshing, if it's not then just exit
+		if(removeInfo.status !== "loading"){
 			return;
-			
+		}
+		
+		//Remove all YouTube players that are associated with this tab
 		PlayerManager.removePlayerByTabId(tabId);
 	});
 	

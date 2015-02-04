@@ -1,9 +1,9 @@
 /*
-	Controls the current youtube player that is in use
+	Controls the last YouTube player that was in use
 */
 
 YoutubePlayer = (function(){
-	var mCurrentPlayerId;		//The last youtube player that was/is in use
+	var mCurrentPlayerId;		//The last YouTube player that was/is in use
 	var eventListeners = [];
 	var mVolume;
 	var mCurrentTime;
@@ -13,6 +13,7 @@ YoutubePlayer = (function(){
 	
 	init();
 	
+	//Set up event handlers
 	function init(){
 		PlayerManager.addEventListener('statusChanged', onPlayerStatusChanged);
 		PlayerManager.addEventListener('volumeChanged', onPlayerVolumeChanged);
@@ -20,39 +21,47 @@ YoutubePlayer = (function(){
 		PlayerManager.addEventListener('currentTimeChanged', onPlayerCurrentTimeChanged);
 	}
 	
+	//Check if the specified YouTube player id is the same id of the last YouTube player that was in use
 	function isCurrentPlayer(playerId){
 		return (mCurrentPlayerId && mCurrentPlayerId === playerId);
 	}
 	
+	//Set a new YouTube player as the primary player
 	function setCurrentPlayer(playerId){
 		mCurrentPlayerId = playerId;
 		
+		//Check if the volume of the new player differs from the previous one, if that is the case then report that the volume has changed
 		if(mVolume !== PlayerManager.getPlayerVolume(playerId)){
 			mVolume = PlayerManager.getPlayerVolume(playerId);
 			castEvent('volumeChanged', mVolume);
 		}
 		
+		//Check if the current time (seek position) of the new player differs from the previous one, if that is the case then report that the current time has changed
 		if(mCurrentTime !== PlayerManager.getPlayerCurrentTime(playerId)){
 			mCurrentTime = PlayerManager.getPlayerCurrentTime(playerId);
 			castEvent('currentTimeChanged', mCurrentTime);
 		}
 		
+		//Check if the duration (video length) of the new player differs from the previous one, if that is the case then report that the duration (video length) has changed
 		if(mDuration !== PlayerManager.getPlayerDuration(playerId)){
 			mDuration = PlayerManager.getPlayerDuration(playerId);
 			castEvent('durationChanged', mDuration);
 		}
 		
+		//Check if the YouTube video URL of the new player differs from the previous one, if that is the case then report that the video URL has changed
 		if(mVideoUrl !== PlayerManager.getPlayerVideoUrl(playerId)){
 			mVideoUrl = PlayerManager.getPlayerVideoUrl(playerId);
 			castEvent('videoUrlChanged', mVideoUrl);
 		}
 		
+		//Check if the new player was muted while the previous one wasn't, if that is the case then report that the new player is muted or unmuted
 		if(mIsMuted !== PlayerManager.getPlayerIsMuted(playerId)){
 			mIsMuted = PlayerManager.getPlayerIsMuted(playerId);
 			castEvent('isMutedChanged', mIsMuted);
 		}
 	}
 
+	//Event triggered when the state (buffering, paused, playing) has changed for any of the available YouTube players
 	function onPlayerStatusChanged(event){
 		var playerId = event.playerId;
 		var status = event.status;
@@ -72,6 +81,7 @@ YoutubePlayer = (function(){
 		}
 	}
 	
+	//Event triggered when a YouTube player has changed its volume
 	function onPlayerVolumeChanged(event){
 		var playerId = event.playerId;
 		var status = event.volume;
@@ -81,6 +91,7 @@ YoutubePlayer = (function(){
 		}
 	}
 	
+	//Event triggered when the video duration has changed for a specific YouTube player
 	function onPlayerDurationChanged(event){
 		var playerId = event.playerId;
 		var status = event.duration;
@@ -90,6 +101,7 @@ YoutubePlayer = (function(){
 		}
 	}
 	
+	//Event triggered when the current time (seek position) of a specific YouTube player has changed
 	function onPlayerCurrentTimeChanged(event){
 		var playerId = event.playerId;
 		var status = event.currentTime;
@@ -99,6 +111,7 @@ YoutubePlayer = (function(){
 		}
 	}
 	
+	//Send command to a YouTube player to start playback
 	function play(){
 		if(mCurrentPlayerId === undefined){
 			console.log('Unable to play, no youtube player exists');
@@ -108,6 +121,7 @@ YoutubePlayer = (function(){
 		PlayerManager.play(mCurrentPlayerId);
 	}
 	
+	//Send command to a YouTube player to pause playback
 	function pause(){
 		if(mCurrentPlayerId === undefined){
 			console.log('Unable to pause, no youtube player exists');
@@ -134,6 +148,7 @@ YoutubePlayer = (function(){
 		}
 	}
 	
+	//Return public functions
 	return {
 		addEventListener: addEventListener,
 		play: play,

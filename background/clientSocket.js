@@ -1,5 +1,5 @@
 /*
-	Simple websocket client for communicating with a websocket server
+	Simple web socket client for communicating with a web socket server
 */
 
 ClientSocket = (function() {

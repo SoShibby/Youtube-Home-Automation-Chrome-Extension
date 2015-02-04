@@ -5,11 +5,11 @@
 */
 
 ControlUnitCommunicator = (function(){
-	var mURL = "ws://127.0.0.1:9001";
+	var mURL = "ws://127.0.0.1:9001";		//URL of the control unit (server)
 
 	init();
 	
-	//Initializing
+	//Set up event listeners
 	function init(){
 		ClientSocket.addEventListener('onMessage', onMessageReceived);
 		ClientSocket.addEventListener('onClose', onClose);
@@ -23,32 +23,32 @@ ControlUnitCommunicator = (function(){
 		YoutubePlayer.addEventListener('videoUrlChanged', onPlayerVideoUrlChanged);
 	}
 	
-	//Event triggered when youtube player has changed status
+	//Event triggered when YouTube player has changed status
 	function onPlayerStatusChanged(isPlaying){
 		ClientSocket.sendJSON({ "propertyName": "playing", "propertyValue": isPlaying });
 	}
 	
-	//Event triggered when youtube player volume is changed
+	//Event triggered when YouTube player volume is changed
 	function onPlayerVolumeChanged(volume){
 		ClientSocket.sendJSON({ "propertyName": "volume", "propertyValue": volume });
 	}
 	
-	//Event triggered when youtube players track duration has changed
+	//Event triggered when YouTube players track duration has changed
 	function onPlayerDurationChanged(duration){
 		ClientSocket.sendJSON({ "propertyName": "duration", "propertyValue": duration });
 	}
 	
-	//Event triggered when youtube players current seek position has changed
+	//Event triggered when YouTube players current seek position has changed
 	function onPlayerCurrentTimeChanged(currentTime){
 		ClientSocket.sendJSON({ "propertyName": "currentTime", "propertyValue": currentTime });
 	}
 	
-	//Event triggered when youtube players is muted or unmuted has changed
+	//Event triggered when YouTube players is muted or unmuted has changed
 	function onPlayerIsMutedChanged(isMuted){
 		ClientSocket.sendJSON({ "propertyName": "muted", "propertyValue": isMuted });
 	}
 	
-	//Event triggered when youtube players video url has changed
+	//Event triggered when YouTube players video url has changed
 	function onPlayerVideoUrlChanged(videoUrl){
 		ClientSocket.sendJSON({ "propertyName": "videoUri", "propertyValue": videoUrl });	
 	}
@@ -77,12 +77,12 @@ ControlUnitCommunicator = (function(){
 				return;
 			}
 		}catch(e){
-			console.log("onMessageReceived, Exception occured with message: " + e.message);
+			console.log("onMessageReceived, Exception occurred with message: " + e.message);
 			console.log(e.stack);
 		}
 	}
 
-	//Send command to youtube player
+	//Send command to YouTube player
 	function setPropertyValue(propertyName, propertyValue){
 		if(propertyName === "playing"){
 			Assert.isBoolean(propertyValue, "Invalid propertyValue, expected boolean value for propertyName '" + propertyName + "'");
