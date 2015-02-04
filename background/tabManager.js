@@ -13,7 +13,7 @@ TabManager = (function(){
 
 	//Incoming message from a tab
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		if(request.player){
+		if(!request.player){
 			console.log("Invalid request received, couldn't find field 'player' in the request");
 			return;
 		}
