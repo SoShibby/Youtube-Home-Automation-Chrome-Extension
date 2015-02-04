@@ -7,10 +7,10 @@
     "scripts": [ "misc/assert.js", "background/clientSocket.js", "background/playerManager.js", "background/youtubePlayer.js", "background/controlUnitCommunicator.js", "background/tabManager.js" ]
   },
   "browser_action" : {
-    "default_icon" : "images/sample-128.png"
+    "default_icon" : "images/Youtube-Logo.png"
   },
   "icons" : {
-    "128" : "images/sample-128.png"
+    "128" : "images/Youtube-Logo.png"
   },
   "content_scripts": [
     {
