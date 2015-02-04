@@ -3,43 +3,38 @@
 */
 
 ClientSocket = (function() {
-	var ws = null;
-	var mConnected = false;
-	var mUrl;
+	var mWebSocket = null;
 	var mEventListeners = [];
 	
 	//Connect to server
 	function connect(url){
 		console.log("Client socket: Connecting to server");
 		
-		mUrl = url;
-		ws = new WebSocket(url);
-		ws.onopen = onOpen;
-		ws.onclose = onClose;
-		ws.onmessage = onMessage;
-		ws.onerror = onError;
+		mWebSocket = new WebSocket(url);
+		mWebSocket.onopen = onOpen;
+		mWebSocket.onclose = onClose;
+		mWebSocket.onmessage = onMessage;
+		mWebSocket.onerror = onError;
 	}
 	
 	//Close socket connection
 	function close() {
-		if (ws) {
-			console.log('CLOSING ...');
-			ws.close();
+		if (mWebSocket) {
+			console.log('Client socket: Closing');
+			mWebSocket.close();
 		}
-		mConnected = false;
 	}
 	
 	//Event triggered when socket is connected to server
 	function onOpen() {
 		console.log('Client socket: Connected');
-		mConnected = true;
 		castEvent('onOpen', event);
 	}
 	
 	//Event triggered when socket is disconnected
 	function onClose() {
 		console.log('Client socket: Connection closed');
-		ws = null;
+		mWebSocket = null;
 		castEvent('onClose', event);
 	}
 	
@@ -58,14 +53,14 @@ ClientSocket = (function() {
 	//Send a message to the server
 	function send(message) {
 		console.log('Client socket: Sending message: ' + message);
-		ws.send(message);
+		mWebSocket.send(message);
 	}
 	
 	//Send a json message to the server
 	function sendJSON(json){
 		var message = JSON.stringify(json);
 		console.log('Client socket: Sending json message: ' + message);
-		ws.send(message);
+		mWebSocket.send(message);
 	}
 	
 	//Cast event to all listeners
