@@ -4,7 +4,7 @@ It receives events such as paused, playing and can send commands to a YouTube pl
 */
 PlayerHandler = (function(){
 	var mPlayers = [];			//Array of all YouTube players in this tab
-	var eventListeners = []; 
+	var mEventListeners = []; 
 
 	//Add a new YouTube player to the collection
 	function addPlayer(playerId, videoId, autoplay){
@@ -146,20 +146,20 @@ PlayerHandler = (function(){
 	function addEventListener(eventName, listener){
 		console.log("addEventListener: " + eventName);
 		
-		if(eventListeners[eventName] === undefined)
-			eventListeners[eventName] = [];
+		if(mEventListeners[eventName] === undefined)
+			mEventListeners[eventName] = [];
 			
-		eventListeners[eventName].push(listener);
+		mEventListeners[eventName].push(listener);
 	}
 	
 	function castEvent(eventName, eventValue){
 		console.log("Casting event,  eventName: " + eventName + ", eventValue: " + eventValue);
-		if(eventListeners[eventName] === undefined){
+		if(mEventListeners[eventName] === undefined){
 			return;
 		}
 			
-		for(var i = 0; i < eventListeners[eventName].length; i++){
-			eventListeners[eventName][i](eventValue);
+		for(var i = 0; i < mEventListeners[eventName].length; i++){
+			mEventListeners[eventName][i](eventValue);
 		}
 	}
 	

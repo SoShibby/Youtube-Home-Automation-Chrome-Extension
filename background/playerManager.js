@@ -4,7 +4,7 @@
 
 PlayerManager = (function(){
 	var mPlayers = [];		//Array of all the YouTube players that exists on every tab
-	var eventListeners = [];
+	var mEventListeners = [];
 	
 	function setPlayerStatus(playerId, status){
 		mPlayers[playerId].status = status;
@@ -94,19 +94,19 @@ PlayerManager = (function(){
 	}
 	
 	function addEventListener(eventName, listener){
-		if(eventListeners[eventName] === undefined)
-			eventListeners[eventName] = [];
+		if(mEventListeners[eventName] === undefined)
+			mEventListeners[eventName] = [];
 			
-		eventListeners[eventName].push(listener);
+		mEventListeners[eventName].push(listener);
 	}
 	
 	function castEvent(eventName, eventValue){
-		if(eventListeners[eventName] === undefined){
+		if(mEventListeners[eventName] === undefined){
 			return;
 		}
 			
-		for(var i = 0; i < eventListeners[eventName].length; i++){
-			eventListeners[eventName][i](eventValue);
+		for(var i = 0; i < mEventListeners[eventName].length; i++){
+			mEventListeners[eventName][i](eventValue);
 		}
 	}
 	

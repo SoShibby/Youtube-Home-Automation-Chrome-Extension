@@ -6,7 +6,7 @@ ClientSocket = (function() {
 	var ws = null;
 	var mConnected = false;
 	var mUrl;
-	var eventListeners = [];
+	var mEventListeners = [];
 	
 	//Connect to server
 	function connect(url){
@@ -70,12 +70,12 @@ ClientSocket = (function() {
 	
 	//Cast event to all listeners
 	function castEvent(eventName, eventValue){
-		if(eventListeners[eventName] === undefined){
+		if(mEventListeners[eventName] === undefined){
 			return;
 		}
 			
-		for(var i = 0; i < eventListeners[eventName].length; i++){
-			eventListeners[eventName][i](eventValue);
+		for(var i = 0; i < mEventListeners[eventName].length; i++){
+			mEventListeners[eventName][i](eventValue);
 		}
 	}
 	
@@ -83,10 +83,10 @@ ClientSocket = (function() {
 	function addEventListener(eventName, listener){
 		console.log("addEventListener: " + eventName);
 		
-		if(eventListeners[eventName] === undefined)
-			eventListeners[eventName] = [];
+		if(mEventListeners[eventName] === undefined)
+			mEventListeners[eventName] = [];
 			
-		eventListeners[eventName].push(listener);
+		mEventListeners[eventName].push(listener);
 	}
 		
 	//Return public functions
