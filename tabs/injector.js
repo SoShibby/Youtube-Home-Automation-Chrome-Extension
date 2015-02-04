@@ -89,11 +89,22 @@ Injector = (function() {
 		console.log("onYouTubeIframeAPIReady");
 		
 		if(isYoutubeWebsite()){
-			$('#theater-background').remove();	//Remove theater-background from youtube website, this prevents the user from starting/pausing the video by clicking on the video
-			$('.spf-link').each(function(){ 	//Remove spf-link class from links, spf-link do so videos loads dynamically which prevents our extension from recognizing the new video
+			//Pause the existing YouTube player
+			$('video').each(function(){
+				this.onplay = function() {
+					this.pause();
+				};
+			});
+			
+			//Remove theater-background from the YouTube website as this prevents the user from starting/pausing the video by clicking on the video
+			$('#theater-background').remove();
+
+			//Remove spf-link class from links. spf-link do so videos loads dynamically which prevents our extension from recognizing the new video			
+			$('.spf-link').each(function(){ 	
 				$(this).removeClass('spf-link');
 			});	
 			
+			//Replace the existing YouTube player with our own YouTube player which we can control
 			var parameters = HelpFunctions.getURLParameters();
 			var videoId = parameters.v;					//Get YouTube video id
 			injectPlayer(videoId, $('#player-api'));	//Inject and replace the old YouTube video player
