@@ -6,12 +6,14 @@ PlayerManager = (function(){
 	var mPlayers = [];		//Array of all the YouTube players that exists on every tab
 	var mEventListeners = [];
 	
-	function setPlayerStatus(playerId, status){
+	//Event triggered when the status of a YouTube player changes
+	function onPlayerStatusChanged(playerId, status){
 		mPlayers[playerId].status = status;
 		castEvent('statusChanged', { playerId: playerId, status: status });
 	}
 
-	function setPlayerVolume(playerId, volume){
+	//Event triggered when the volume of a YouTube player changes
+	function onPlayerVolumeChanged(playerId, volume){
 		mPlayers[playerId].volume = volume;
 		castEvent('volumeChanged', { playerId: playerId, volume: volume });
 	}
@@ -21,7 +23,8 @@ PlayerManager = (function(){
 		return mPlayers[playerId].volume;
 	}
 
-	function setPlayerDuration(playerId, duration){
+	//Event triggered when the duration (video length) of a YouTube player changes
+	function onPlayerDurationChanged(playerId, duration){
 		mPlayers[playerId].duration = duration;
 		castEvent('durationChanged', { playerId: playerId, duration: duration });
 	}
@@ -31,7 +34,8 @@ PlayerManager = (function(){
 		return mPlayers[playerId].duration;
 	}
 
-	function setPlayerCurrentTime(playerId, currentTime){
+	//Event triggered when the current time (seek position) of a YouTube player changes
+	function onPlayerCurrentTimeChanged(playerId, currentTime){
 		mPlayers[playerId].currentTime = currentTime;
 		castEvent('currentTimeChanged', { playerId: playerId, currentTime: currentTime });
 	}
@@ -41,7 +45,8 @@ PlayerManager = (function(){
 		return mPlayers[playerId].currentTime;
 	}
 	
-	function setPlayerIsMuted(playerId, isMuted){
+	//Event triggered when a YouTube player is muted or unmuted
+	function onPlayerIsMutedChanged(playerId, isMuted){
 		mPlayers[playerId].isMuted = isMuted;
 		castEvent('isMuted', { playerId: playerId, isMuted: isMuted });
 	}
@@ -51,7 +56,8 @@ PlayerManager = (function(){
 		return mPlayers[playerId].isMuted;
 	}
 	
-	function setPlayerVideoUrl(playerId, videoUrl){
+	//Event triggered when the video URL of a YouTube player changes
+	function onPlayerVideoUrlChanged(playerId, videoUrl){
 		mPlayers[playerId].videoUrl = videoUrl;
 		castEvent('videoUrl', { playerId: playerId, videoUrl: videoUrl });
 	}
@@ -112,17 +118,17 @@ PlayerManager = (function(){
 	
 	//Return public functions
 	return{
-		setPlayerStatus: setPlayerStatus,
-		setPlayerVolume: setPlayerVolume,
+		onPlayerStatusChanged: onPlayerStatusChanged,
+		onPlayerVolumeChanged: onPlayerVolumeChanged,
 		getPlayerVolume: getPlayerVolume,
-		setPlayerDuration: setPlayerDuration,
+		onPlayerDurationChanged: onPlayerDurationChanged,
 		getPlayerDuration: getPlayerDuration,
-		setPlayerCurrentTime: setPlayerCurrentTime,
+		onPlayerCurrentTimeChanged: onPlayerCurrentTimeChanged,
 		getPlayerCurrentTime: getPlayerCurrentTime,
 		getPlayerIsMuted: getPlayerIsMuted,
-		setPlayerIsMuted: setPlayerIsMuted,
+		onPlayerIsMutedChanged: onPlayerIsMutedChanged,
 		getPlayerVideoUrl: getPlayerVideoUrl,
-		setPlayerVideoUrl: setPlayerVideoUrl,
+		onPlayerVideoUrlChanged: onPlayerVideoUrlChanged,
 		addPlayer: addPlayer,
 		removePlayer: removePlayer,
 		removePlayerByTabId: removePlayerByTabId,

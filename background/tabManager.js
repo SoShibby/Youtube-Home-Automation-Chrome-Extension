@@ -22,15 +22,15 @@ TabManager = (function(){
 			
 			if(event === "added"){
 				PlayerManager.addPlayer(tabId, playerId);
-				PlayerManager.setPlayerVolume(playerId, player.volume);
-				PlayerManager.setPlayerDuration(playerId, player.duration);
-				PlayerManager.setPlayerCurrentTime(playerId, player.currentTime);
-				PlayerManager.setPlayerIsMuted(playerId, player.isMuted);
-				PlayerManager.setPlayerVideoUrl(playerId, player.videoUrl);
+				PlayerManager.onPlayerVolumeChanged(playerId, player.volume);
+				PlayerManager.onPlayerDurationChanged(playerId, player.duration);
+				PlayerManager.onPlayerCurrentTimeChanged(playerId, player.currentTime);
+				PlayerManager.onPlayerIsMutedChanged(playerId, player.isMuted);
+				PlayerManager.onPlayerVideoUrlChanged(playerId, player.videoUrl);
 			}else if(event === "removed"){
 				PlayerManager.removePlayer(playerId);
 			}else if(event === "statusChanged"){
-				PlayerManager.setPlayerStatus(playerId, status);
+				PlayerManager.onPlayerStatusChanged(playerId, status);
 			}
 		}else{
 			sendResponse({}); // snub them.
