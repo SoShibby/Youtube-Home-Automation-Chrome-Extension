@@ -42,13 +42,13 @@ Injector = (function() {
 	}
 
 	//Injects a YouTube video (which we can control) into the DOM
-	function injectPlayer(videoId, replaceElement){
+	function injectPlayer(videoId, replaceElement, autoplay){
 		console.log("injectPlayer");
 		
 		var playerId = HelpFunctions.createGUID();			//Create a unique id for our new YouTube player
 		var classes = replaceElement.attr('class');			//Get the classes of the DOM element we are replacing (so the new YouTube player will look like the one we are replacing)
 		replaceElement.replaceWith('<div id="player-' + playerId + '" class="loaded ' + classes + '" data-playerid="' + playerId + '"></div>');
-		PlayerHandler.addPlayer(playerId, videoId, false);
+		PlayerHandler.addPlayer(playerId, videoId, autoplay);
 	}
 
 	//Replace all YouTube iFrames with our YouTube player (which we can control)
@@ -106,8 +106,8 @@ Injector = (function() {
 			
 			//Replace the existing YouTube player with our own YouTube player which we can control
 			var parameters = HelpFunctions.getURLParameters();
-			var videoId = parameters.v;					//Get YouTube video id
-			injectPlayer(videoId, $('#player-api'));	//Inject and replace the old YouTube video player
+			var videoId = parameters.v;						//Get YouTube video id
+			injectPlayer(videoId, $('#player-api'), true);	//Inject and replace the old YouTube video player
 		}
 	}
 

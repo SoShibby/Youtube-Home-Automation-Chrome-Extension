@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js" : ["misc/jquery-2.0.1.min.js", "misc/assert.js", "misc/scrollTo.js", "tabs/main.js", "tabs/playerHandler.js", "tabs/backgroundCommunicator.js", "tabs/injector.js", "misc/helpFunctions.js", "nativeYoutubeAPI/iframe_api.js","nativeYoutubeAPI/www-widgetapi-vflqvh1vf.js"],
+      "js" : ["misc/jquery-2.0.1.min.js", "misc/assert.js", "misc/scrollTo.js", "tabs/playerHandler.js", "tabs/backgroundCommunicator.js", "tabs/injector.js", "misc/helpFunctions.js", "nativeYoutubeAPI/iframe_api.js","nativeYoutubeAPI/www-widgetapi-vflqvh1vf.js", "tabs/main.js"],
 	  "all_frames": true
     }
   ],
