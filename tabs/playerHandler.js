@@ -60,8 +60,8 @@ PlayerHandler = (function(){
 	function onPlayerReady(event) {
 		console.log("onPlayerReady");
 		
-		var playerId = $(player.a).data('playerid');
 		var player = event.target;
+		var playerId = $(player.a).data('playerid');
 		player.initialized = false;
 		player.playerId = playerId;
 		
