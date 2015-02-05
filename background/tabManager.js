@@ -31,6 +31,7 @@ TabManager = (function(){
 			PlayerManager.onPlayerCurrentTimeChanged(playerId, player.currentTime);
 			PlayerManager.onPlayerIsMutedChanged(playerId, player.isMuted);
 			PlayerManager.onPlayerVideoUrlChanged(playerId, player.videoUrl);
+			PlayerManager.onPlayerStatusChanged(playerId, player.status);
 		}else if(event === "removed"){
 			PlayerManager.removePlayer(playerId);
 		}else if(event === "statusChanged"){

@@ -21,39 +21,19 @@ Communicator = (function() {
 		var duration = PlayerHandler.getDuration(playerId);
 		var videoUrl = PlayerHandler.getVideoUrl(playerId);
 		var currentTime = PlayerHandler.getCurrentTime(playerId);
+		var status = PlayerHandler.getStatus(playerId);
 		
-		chrome.extension.sendRequest({ player: { playerId: playerId, event: "added", volume: volume, isMuted: isMuted, duration: duration, videoUrl: videoUrl, currentTime: currentTime } }, function(response) {});	
+		chrome.extension.sendRequest({ player: { playerId: playerId, event: "added", status: status, volume: volume, isMuted: isMuted, duration: duration, videoUrl: videoUrl, currentTime: currentTime } }, function(response) {});	
 	}
 
 	//Event triggered when a YouTube player has changed state (buffering, playing, paused etc). 
 	function onPlayerStateChanged(event) {
 		console.log("onPlayerStateChanged");
+		
 		var player = event.player;
 		player.initialized = true;
 		
-		var status;
-		switch(event.originalEvent.data){
-			case YT.PlayerState.UNSTARTED:
-				status = "unstarted";
-				break;
-			case YT.PlayerState.ENDED:
-				status = "ended";
-				break;
-			case YT.PlayerState.PLAYING:
-				status = "playing";
-				break;
-			case YT.PlayerState.PAUSED:
-				status = "paused";
-				break;
-			case YT.PlayerState.BUFFERING:
-				status = "buffering";
-				break;
-			case YT.PlayerState.CUED:
-				status = "cued";
-				break;
-		}
-		
-		chrome.extension.sendRequest({ player: { playerId: event.player.playerId, status: status, event: "statusChanged" } }, function(response) {});	//Send message to the background script that a YouTube player has changed state
+		chrome.extension.sendRequest({ player: { playerId: event.player.playerId, status: event.playerState, event: "statusChanged" } }, function(response) {});	//Send message to the background script that a YouTube player has changed state
 	}
 	
 	//Listen for commands from the background script to pause, play etc.

@@ -32,18 +32,37 @@ PlayerHandler = (function(){
 	//Event triggered when the YouTube player changes state. Possible states are -1 – unstarted, 0 – ended, 1 – playing, 2 – paused, 3 – buffering, 5 - video cued
 	function onPlayerStateChanged(event) {
 		console.log("onPlayerStateChanged");
+		var playerState = getPlayerStateString(event.data);
+		castEvent("onPlayerStateChanged", { player: event.target, playerState: playerState, originalEvent: event });
+	}
 	
-		var player = event.target;	
-		castEvent("onPlayerStateChanged", { player: player, originalEvent: event });
+	//Convert player state number to player state string
+	function getPlayerStateString(playerStateNumber){
+		switch(playerStateNumber){
+			case YT.PlayerState.UNSTARTED:
+				return "unstarted";
+			case YT.PlayerState.ENDED:
+				return "ended";
+			case YT.PlayerState.PLAYING:
+				return "playing";
+			case YT.PlayerState.PAUSED:
+				return "paused";
+			case YT.PlayerState.BUFFERING:
+				return "buffering";
+			case YT.PlayerState.CUED:
+				return "cued";
+		}
+		
+		return "unknown";
 	}
 	
 	//Event triggered when a YouTube player has finished loading
 	function onPlayerReady(event) {
 		console.log("onPlayerReady");
 		
+		var playerId = $(player.a).data('playerid');
 		var player = event.target;
 		player.initialized = false;
-		var playerId = $(player.a).data('playerid');
 		player.playerId = playerId;
 		
 		mPlayers[playerId] = player;
@@ -91,6 +110,10 @@ PlayerHandler = (function(){
 	//Set the volume of the specific YouTube player
 	function setVolume(playerId, volume){
 		return getPlayer(playerId).setVolume(volume);
+	}
+	
+	function getStatus(playerId){
+		return getPlayerStateString(getPlayer(playerId).getPlayerState());
 	}
 	
 	//Check if the specified YouTube player is muted or not
@@ -174,6 +197,7 @@ PlayerHandler = (function(){
 		getDuration: getDuration,
 		getVolume: getVolume,
 		setVolume: setVolume,
+		getStatus: getStatus,
 		isMuted: isMuted,
 		mute: mute,
 		unMute: unMute,

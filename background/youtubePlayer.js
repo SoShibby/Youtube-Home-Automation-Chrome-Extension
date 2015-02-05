@@ -69,7 +69,7 @@ YoutubePlayer = (function(){
 		
 		console.log("onPlayerStatusChanged - " + playerId + " - " + status);
 		
-		var isPlaying = (status === "playing");
+		var isPlaying = (status === "playing" || status === "buffering");
 		
 		//If this player is playing a video then set this player as the new "primary" player
 		if(isPlaying){		
