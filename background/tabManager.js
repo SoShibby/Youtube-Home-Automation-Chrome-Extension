@@ -13,31 +13,36 @@ TabManager = (function(){
 
 	//Incoming message from a tab
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		if(!request.player){
-			console.log("Invalid request received, couldn't find field 'player' in the request");
-			return;
-		}
-		
-		var player = request.player;
-		var playerId = player.playerId;
-		var status = player.status;
-		var event = player.event;
-		var tabId = sender.tab.id;
-		
-		if(event === "added"){
-			PlayerManager.addPlayer(tabId, playerId);
-			PlayerManager.onPlayerVolumeChanged(playerId, player.volume);
-			PlayerManager.onPlayerDurationChanged(playerId, player.duration);
-			PlayerManager.onPlayerCurrentTimeChanged(playerId, player.currentTime);
-			PlayerManager.onPlayerIsMutedChanged(playerId, player.isMuted);
-			PlayerManager.onPlayerVideoUrlChanged(playerId, player.videoUrl);
-			PlayerManager.onPlayerStatusChanged(playerId, player.status);
-		}else if(event === "removed"){
-			PlayerManager.removePlayer(playerId);
-		}else if(event === "statusChanged"){
-			PlayerManager.onPlayerStatusChanged(playerId, status);
-		}else{
-			console.log("Invalid request received, unknown event '" + event + "'");
+		try{
+			if(!request.player){
+				console.log("Invalid request received, couldn't find field 'player' in the request");
+				return;
+			}
+			
+			var player = request.player;
+			var playerId = player.playerId;
+			var status = player.status;
+			var event = player.event;
+			var tabId = sender.tab.id;
+			
+			if(event === "added"){
+				PlayerManager.addPlayer(tabId, playerId);
+				PlayerManager.onPlayerVolumeChanged(playerId, player.volume);
+				PlayerManager.onPlayerDurationChanged(playerId, player.duration);
+				PlayerManager.onPlayerCurrentTimeChanged(playerId, player.currentTime);
+				PlayerManager.onPlayerIsMutedChanged(playerId, player.isMuted);
+				PlayerManager.onPlayerVideoUrlChanged(playerId, player.videoUrl);
+				PlayerManager.onPlayerStatusChanged(playerId, player.status);
+			}else if(event === "removed"){
+				PlayerManager.removePlayer(playerId);
+			}else if(event === "statusChanged"){
+				PlayerManager.onPlayerStatusChanged(playerId, status);
+			}else{
+				console.log("Invalid request received, unknown event '" + event + "'");
+			}
+		}catch(e){
+			console.log("An exception occured when handling request from tab");
+			console.log(e.stack);
 		}
 	});
 

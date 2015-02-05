@@ -8,62 +8,111 @@ PlayerManager = (function(){
 	
 	//Event triggered when the status of a YouTube player changes
 	function onPlayerStatusChanged(playerId, status){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].status = status;
 		castEvent('statusChanged', { playerId: playerId, status: status });
 	}
 
 	//Event triggered when the volume of a YouTube player changes
 	function onPlayerVolumeChanged(playerId, volume){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].volume = volume;
 		castEvent('volumeChanged', { playerId: playerId, volume: volume });
 	}
 	
 	//Get the current volume of the YouTube player with the specified id
 	function getPlayerVolume(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		return mPlayers[playerId].volume;
+	}
+	
+	//Get whether a player with the specified id exists in the player collection
+	function existsPlayer(playerId){
+		return mPlayers[playerId] !== undefined;
 	}
 
 	//Event triggered when the duration (video length) of a YouTube player changes
 	function onPlayerDurationChanged(playerId, duration){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].duration = duration;
 		castEvent('durationChanged', { playerId: playerId, duration: duration });
 	}
 
 	//Get the duration (video length) of the YouTube player with the specified id
 	function getPlayerDuration(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		return mPlayers[playerId].duration;
 	}
 
 	//Event triggered when the current time (seek position) of a YouTube player changes
 	function onPlayerCurrentTimeChanged(playerId, currentTime){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].currentTime = currentTime;
 		castEvent('currentTimeChanged', { playerId: playerId, currentTime: currentTime });
 	}
 	
 	//Get the current time (seek position) of the YouTube player with the specified id
 	function getPlayerCurrentTime(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		return mPlayers[playerId].currentTime;
 	}
 	
 	//Event triggered when a YouTube player is muted or unmuted
 	function onPlayerIsMutedChanged(playerId, isMuted){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].isMuted = isMuted;
 		castEvent('isMuted', { playerId: playerId, isMuted: isMuted });
 	}
 	
 	//Check if a specific YouTube player is muted or not
 	function getPlayerIsMuted(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		return mPlayers[playerId].isMuted;
 	}
 	
 	//Event triggered when the video URL of a YouTube player changes
 	function onPlayerVideoUrlChanged(playerId, videoUrl){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		mPlayers[playerId].videoUrl = videoUrl;
 		castEvent('videoUrl', { playerId: playerId, videoUrl: videoUrl });
 	}
 	
 	//Get the video URL of a specific YouTube player
 	function getPlayerVideoUrl(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		return mPlayers[playerId].videoUrl;
 	}
 
@@ -74,6 +123,10 @@ PlayerManager = (function(){
 
 	//Remove a YouTube player from the collection
 	function removePlayer(playerId){
+		if(!existsPlayer(playerId)){
+			throw new Error("No player exists with the id '" + playerId + "'");
+		}
+		
 		delete mPlayers[playerId];
 		castEvent('playerRemoved', { playerId: playerId });
 	}
