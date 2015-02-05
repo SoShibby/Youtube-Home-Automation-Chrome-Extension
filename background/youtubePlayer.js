@@ -19,6 +19,7 @@ YoutubePlayer = (function(){
 		PlayerManager.addEventListener('volumeChanged', onPlayerVolumeChanged);
 		PlayerManager.addEventListener('durationChanged', onPlayerDurationChanged);
 		PlayerManager.addEventListener('currentTimeChanged', onPlayerCurrentTimeChanged);
+		PlayerManager.addEventListener('playerRemoved', onPlayerRemoved);
 	}
 	
 	//Check if the specified YouTube player id is the same id of the last YouTube player that was in use
@@ -108,6 +109,15 @@ YoutubePlayer = (function(){
 		
 		if(isCurrentPlayer(playerId)){
 			castEvent('currentTimeChanged', currentTime);
+		}
+	}
+	
+	//Event triggered when a YouTube player is removed
+	function onPlayerRemoved(event){
+		var playerId = event.playerId;
+		
+		if(isCurrentPlayer(playerId)){
+			castEvent('isPlaying', false);
 		}
 	}
 	
