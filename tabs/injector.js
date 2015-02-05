@@ -30,7 +30,7 @@ Injector = (function() {
 
 	//Check if the current website is YouTube.com
 	function isYoutubeWebsite(){
-		return window.location.href.indexOf("https://www.youtube.com/watch?v=") != -1;
+		return window.location.href.indexOf("https://www.youtube.com") != -1;
 	}
 
 	//Get YouTube video id from a YouTube URL, this only works for URLs that contains the video id in the path of the URL, not in the URL parameter.
@@ -89,26 +89,39 @@ Injector = (function() {
 		console.log("onYouTubeIframeAPIReady");
 		
 		if(isYoutubeWebsite()){
-			//Pause the existing YouTube player
-			$('video').each(function(){
-				this.onplay = function() {
-					this.pause();
-				};
+			//Remove spf-link class from links. spf-link do so videos loads dynamically which prevents our extension from recognizing the new video			
+			removeSpfLinks();
+			
+			//Remove spf-links from new DOM elements that has been added dynamically to the website
+			$("body").bind("DOMSubtreeModified", function() {
+				removeSpfLinks();
 			});
 			
-			//Remove theater-background from the YouTube website as this prevents the user from starting/pausing the video by clicking on the video
-			$('#theater-background').remove();
-
-			//Remove spf-link class from links. spf-link do so videos loads dynamically which prevents our extension from recognizing the new video			
-			$('.spf-link').each(function(){ 	
-				$(this).removeClass('spf-link');
-			});	
-			
-			//Replace the existing YouTube player with our own YouTube player which we can control
 			var parameters = HelpFunctions.getURLParameters();
 			var videoId = parameters.v;						//Get YouTube video id
-			injectPlayer(videoId, $('#player-api'), true);	//Inject and replace the old YouTube video player
+			
+			if(videoId){
+				//Pause the existing YouTube player
+				$('video').each(function(){
+					this.onplay = function() {
+						this.pause();
+					};
+				});
+				
+				//Remove theater-background from the YouTube website as this prevents the user from starting/pausing the video by clicking on the video
+				$('#theater-background').remove();
+
+				//Replace the existing YouTube player with our own YouTube player which we can control
+				injectPlayer(videoId, $('#player-api'), true);
+			}
 		}
+	}
+	
+	//Remove spf-link class from DOM elements. spf-link do so videos loads dynamically which prevents our extension from recognizing new videos
+	function removeSpfLinks(){
+		$('.spf-link').each(function(){ 	
+			$(this).removeClass('spf-link');
+		});			
 	}
 
 	//Replace all YouTube iFrames with HTTP with HTTPS versions instead
