@@ -1,3 +1,2 @@
 ﻿- Unable to play youtube videos that show the error message "Playback on other websites has been disabled by the video owner". Example https://www.youtube.com/watch?v=D-QBZbztxFc&feature=player_embedded
 - Youtubes playlist function doesn't work, the next video won't play.
-- YouTube player keeps playing when doing a new search on the YouTube website
