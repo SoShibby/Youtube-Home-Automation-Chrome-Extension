@@ -97,6 +97,13 @@ Injector = (function() {
 				removeSpfLinks();
 			});
 			
+			//When the user clicks on the YouTube search button then go to the page with the search results. 
+			//We use this instead of the native YouTube search button code, which loads search results dynamically, as our video player doesn't stop playing when the search button is pressed
+			$('#search-btn').click(function(){
+				var searchTerm = $('#masthead-search-term').val();
+				window.location.href = 'https://www.youtube.com/results?search_query=' + searchTerm;
+			});
+			
 			var parameters = HelpFunctions.getURLParameters();
 			var videoId = parameters.v;						//Get YouTube video id
 			
