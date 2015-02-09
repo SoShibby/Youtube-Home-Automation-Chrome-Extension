@@ -1,17 +1,27 @@
-/* 
-	Handles communication with all the YouTube players in each tabs
-*/
-
+/**
+ * Handles the communication with all tabs
+ */
 TabManager = (function(){
 
-	//Send message to a tab
+	/**
+	 * Send a message to a tab
+	 *
+	 * @param tabId    the id of the tab that is the recipient of the message 
+	 * @param message  the message that is to be sent to the tab
+	 */
 	function send(tabId, message){
 		chrome.tabs.sendMessage(tabId, message, function(response) {
 			console.log(response);
 		});
 	}
 
-	//Incoming message from a tab
+	/**
+	 * Incoming message from a tab
+	 *
+	 * @param request       the request message received
+	 * @param sender        the tab that sent the message
+	 * @param sendResponse  send back a response to the tab
+	 */
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		try{
 			if(!request.player){
@@ -46,24 +56,35 @@ TabManager = (function(){
 		}
 	});
 
-	//Tab is closing
+	/**
+	 * Event that is triggered when a tab is closed
+	 *
+	 * @param tabId       the id of the tab that was closed
+	 * @param removeInfo  additional information about the event
+	 */
 	chrome.tabs.onRemoved.addListener(function(tabId, removeInfo){
-		//Remove all YouTube players that are associated with this tab
+		// Remove all YouTube players that are associated with this tab
 		PlayerManager.removePlayerByTabId(tabId);
 	});
 
-	//Tab is refreshed
+	/**
+	 * Event that is triggered when a tab is refreshed
+	 *
+	 * @param tabId      the id of the tab that was refreshed
+	 * @param removeInfo additional information about the event
+	 * @param tab        information about the tab that was refreshed
+	 */
 	chrome.tabs.onUpdated.addListener(function(tabId, removeInfo, tab){
-		//Check that this tab is really refreshing, if it's not then just exit
+		// Check that this tab is really refreshing, if it's not then just exit
 		if(removeInfo.status !== "loading"){
 			return;
 		}
 		
-		//Remove all YouTube players that are associated with this tab
+		// Remove all YouTube players that are associated with this tab
 		PlayerManager.removePlayerByTabId(tabId);
 	});
 	
-	//Return public functions
+	// Return public functions
 	return {
 		send: send
 	}
