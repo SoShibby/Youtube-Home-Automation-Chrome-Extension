@@ -9,6 +9,7 @@ YoutubePlayer = (function(){
 	var mDuration;
 	var mVideoUrl;
 	var mIsMuted;
+	var mIsPlaying;
 	
 	init();
 	
@@ -42,6 +43,11 @@ YoutubePlayer = (function(){
 	 */
 	function setCurrentPlayer(playerId){
 		mCurrentPlayerId = playerId;
+		
+		//If the current player id is undefined then just exit this function. This occours when the current youtubbe player has been removed.
+		if(playerId === undefined){
+			return;
+		}
 		
 		// Check if the volume of the new player differs from the previous one, if that is the case then report that the volume has changed
 		if(mVolume !== PlayerManager.getPlayerVolume(playerId)){
@@ -87,6 +93,7 @@ YoutubePlayer = (function(){
 		console.log("onPlayerStatusChanged - " + playerId + " - " + status);
 		
 		var isPlaying = (status === "playing" || status === "buffering");
+		mIsPlaying = isPlaying;
 		
 		//If this player is playing a video then set this player as the new "primary" player
 		if(isPlaying){		
@@ -153,8 +160,13 @@ YoutubePlayer = (function(){
 		var playerId = event.playerId;
 		
 		if(isCurrentPlayer(playerId)){
-			castEvent('isPlaying', false);
+			if(mIsPlaying){
+				castEvent('isPlaying', false);
+				mIsPlaying = false;
+			}
 		}
+		
+		setCurrentPlayer(undefined);	//Set the current player to undefined, because the current youtube player has been removed.
 	}
 	
 	/**
